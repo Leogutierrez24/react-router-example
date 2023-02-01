@@ -1,0 +1,13 @@
+import React from "react";
+import { useAuth } from "./auth";
+
+export function Profile(){
+    const auth = useAuth();
+
+    return (
+        <>
+            <h1>Perfil</h1>
+            <p>Welcome {auth.user.username}</p>
+        </>
+    );
+}

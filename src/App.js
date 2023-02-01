@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { Menu } from "./components/Menu";
+import { Home } from "./components/Home";
+import { Blog } from "./components/Blog";
+import { Profile } from "./components/Profile";
+import { BlogPost } from "./components/BlogPost";
+import { Login } from "./components/Login";
+import { Logout } from "./components/Logout";
+import { AuthProvider, ProtectRoute } from "./components/auth";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <HashRouter>
+        <AuthProvider>
+          <Menu />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/blog" element={<Blog />}>
+              <Route path=":slug" element={<BlogPost />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectRoute>
+                  <Profile />
+                </ProtectRoute>} />
+            <Route path="*" element={<p>Not found</p>} />
+          </Routes>
+        </AuthProvider>
+      </HashRouter>
+    </>
   );
 }
 
